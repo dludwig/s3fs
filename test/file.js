@@ -105,7 +105,9 @@
 
         it('should be able to write a file with options', function () {
             var fileText = '{ "test": "test" }';
-            return bucketS3fsImpl.writeFile('../some/dir/test-file.json', fileText, {ContentType: 'application/json'}).then(function () {
+            return bucketS3fsImpl.writeFile('../some/dir/test-file.json', fileText, {
+                ContentType: 'application/json'
+            }).then(function () {
                 return expect(bucketS3fsImpl.readFile('../some/dir/somethingInvalid/../test-file.json')).to.eventually.satisfy(function (data) {
                     expect(data.ContentType).to.equal('application/json');
                     return true;
@@ -155,7 +157,9 @@
 
         it('should be able to write a file with utf8 encoding', function () {
             var fileText = '{ "test": "test" }';
-            var options = {encoding: 'utf8'};
+            var options = {
+                encoding: 'utf8'
+            };
             return bucketS3fsImpl.writeFile('test-file.json', fileText, options).then(function () {
                 return expect(bucketS3fsImpl.readFile('test-file.json', options)).to.eventually.satisfy(function (data) {
                     expect(data.Body.toString()).to.equal(fileText);
@@ -166,7 +170,9 @@
 
         it('should be able to write a file with utf16 encoding', function () {
             var fileText = '{ "test": "test" }';
-            var options = {encoding: 'utf16'};
+            var options = {
+                encoding: 'utf16'
+            };
             return bucketS3fsImpl.writeFile('test-file.json', fileText, options).then(function () {
                 return expect(bucketS3fsImpl.readFile('test-file.json', options)).to.eventually.satisfy(function (data) {
                     expect(data.Body.toString()).to.equal(fileText);
@@ -218,7 +224,7 @@
         it('should be able to copy an object', function () {
             return expect(bucketS3fsImpl.writeFile('test-copy.json', '{}')
                 .then(function () {
-                    return expect(bucketS3fsImpl.copyFile('test-copy.json', 'test-copy-dos.json')).to.eventually.satisfy(function(data) {
+                    return expect(bucketS3fsImpl.copyFile('test-copy.json', 'test-copy-dos.json')).to.eventually.satisfy(function (data) {
                         expect(data.ETag).to.equal(data.CopyObjectResult.ETag);
                         expect(data.CopyObjectResult.ETag).to.equal('"99914b932bd37a50b983c5e7c90ae93b"');
                         expect(data.LastModified).to.equal(data.CopyObjectResult.LastModified);
@@ -256,7 +262,7 @@
                         });
                     });
                 })
-            ).to.eventually.satisfy(function(data) {
+            ).to.eventually.satisfy(function (data) {
                 expect(data.ETag).to.equal(data.CopyObjectResult.ETag);
                 expect(data.CopyObjectResult.ETag).to.equal('"99914b932bd37a50b983c5e7c90ae93b"');
                 expect(data.LastModified).to.equal(data.CopyObjectResult.LastModified);
@@ -268,7 +274,13 @@
         it('should be able to copy a file with options', function () {
             return bucketS3fsImpl.writeFile('test-copy.json', '{}')
                 .then(function () {
-                    var options = { ContentType: 'application/json', MetadataDirective: 'REPLACE', Metadata: { Somewhere: 'Over the rainbow' } };
+                    var options = {
+                        ContentType: 'application/json',
+                        MetadataDirective: 'REPLACE',
+                        Metadata: {
+                            Somewhere: 'Over the rainbow'
+                        }
+                    };
                     return bucketS3fsImpl.copyFile('test-copy.json', 'test-copy-dos.json', options);
                 })
                 .then(function () {
@@ -285,9 +297,9 @@
                 .then(function () {
                     return bucketS3fsImpl.headObject('test-head.json');
                 })
-            ).to.eventually.satisfy(function(data) {
+            ).to.eventually.satisfy(function (data) {
                 expect(data.AcceptRanges).to.equal('bytes');
-                expect(data.ContentLength).to.equal('2');
+                expect(data.ContentLength).to.equal(2);
                 expect(data.ETag).to.equal('"99914b932bd37a50b983c5e7c90ae93b"');
                 expect(data.ContentType).to.equal('application/octet-stream');
                 expect(data.LastModified).to.be.ok();
@@ -301,9 +313,9 @@
                     var testDirS3fsImpl = bucketS3fsImpl.clone('testDir');
                     return testDirS3fsImpl.headObject('../testDir/test-head.json');
                 })
-            ).to.eventually.satisfy(function(data) {
+            ).to.eventually.satisfy(function (data) {
                 expect(data.AcceptRanges).to.equal('bytes');
-                expect(data.ContentLength).to.equal('2');
+                expect(data.ContentLength).to.equal(2);
                 expect(data.ETag).to.equal('"99914b932bd37a50b983c5e7c90ae93b"');
                 expect(data.ContentType).to.equal('application/octet-stream');
                 expect(data.LastModified).to.be.ok();
@@ -323,9 +335,9 @@
                         });
                     });
                 })
-            ).to.eventually.satisfy(function(data) {
+            ).to.eventually.satisfy(function (data) {
                 expect(data.AcceptRanges).to.equal('bytes');
-                expect(data.ContentLength).to.equal('2');
+                expect(data.ContentLength).to.equal(2);
                 expect(data.ETag).to.equal('"99914b932bd37a50b983c5e7c90ae93b"');
                 expect(data.ContentType).to.equal('application/octet-stream');
                 expect(data.LastModified).to.be.ok();
@@ -372,12 +384,16 @@
         });
 
         it('shouldn\'t be able to write a file from an object', function () {
-            return expect(bucketS3fsImpl.writeFile('test-write-object.json', {test: 'test'})).to.eventually.be.rejectedWith('Expected params.Body to be a string, Buffer, Stream, Blob, or typed array object');
+            return expect(bucketS3fsImpl.writeFile('test-write-object.json', {
+                test: 'test'
+            })).to.eventually.be.rejectedWith('Expected params.Body to be a string, Buffer, Stream, Blob, or typed array object');
         });
 
         it('shouldn\'t be able to write a file from an object with a callback', function () {
             return expect(new Promise(function (resolve, reject) {
-                bucketS3fsImpl.writeFile('test-write-object.json', {test: 'test'}, function (err, data) {
+                bucketS3fsImpl.writeFile('test-write-object.json', {
+                    test: 'test'
+                }, function (err, data) {
                     if (err) {
                         return reject(err);
                     }
@@ -478,7 +494,9 @@
         it('should be able to pipe a small file from a stream with options', function () {
             return expect(new Promise(function (resolve, reject) {
                 var fileReadStream = fs.createReadStream('./test/mock/example-file.json'),
-                    s3fsWriteStream = bucketS3fsImpl.createWriteStream('test-pipe.json', {ContentType: 'application/json'}),
+                    s3fsWriteStream = bucketS3fsImpl.createWriteStream('test-pipe.json', {
+                        ContentType: 'application/json'
+                    }),
                     bytesRead = 0,
                     calculateBytesWritten = through(function (chunk, enc, cb) {
                         bytesRead += chunk.length;
@@ -504,7 +522,9 @@
         it('should be able to pipe a large file from a stream with options', function () {
             return expect(new Promise(function (resolve, reject) {
                 var fileReadStream = fs.createReadStream('./test/mock/large-file.txt'),
-                    s3fsWriteStream = bucketS3fsImpl.createWriteStream('test-pipe-large.json', {ContentType: 'application/json'}),
+                    s3fsWriteStream = bucketS3fsImpl.createWriteStream('test-pipe-large.json', {
+                        ContentType: 'application/json'
+                    }),
                     bytesRead = 0,
                     calculateBytesWritten = through(function (chunk, enc, cb) {
                         bytesRead += chunk.length;
@@ -553,13 +573,17 @@
 
         it.skip('should be able to write a file from a blob', function () {
             //TODO: Get this setup
-            return expect(bucketS3fsImpl.writeFile('test-blobl.json', {test: 'test'})).to.eventually.be.fulfilled();
+            return expect(bucketS3fsImpl.writeFile('test-blobl.json', {
+                test: 'test'
+            })).to.eventually.be.fulfilled();
         });
 
         it.skip('should be able to write a file from a blob with a callback', function () {
             //TODO: Get this setup
             return expect(new Promise(function (resolve, reject) {
-                bucketS3fsImpl.writeFile('test-blob-callback.json', {test: 'test'}, function (err, data) {
+                bucketS3fsImpl.writeFile('test-blob-callback.json', {
+                    test: 'test'
+                }, function (err, data) {
                     if (err) {
                         return reject(err);
                     }
@@ -570,13 +594,17 @@
 
         it.skip('should be able to write a file from a typed array', function () {
             //TODO: Get this setup
-            return expect(bucketS3fsImpl.writeFile('test-typed.json', {test: 'test'})).to.eventually.be.fulfilled();
+            return expect(bucketS3fsImpl.writeFile('test-typed.json', {
+                test: 'test'
+            })).to.eventually.be.fulfilled();
         });
 
         it.skip('should be able to write a file from a typed array with a callback', function () {
             //TODO: Get this setup
             return expect(new Promise(function (resolve, reject) {
-                bucketS3fsImpl.writeFile('test-blob-callback.json', {test: 'test'}, function (err, data) {
+                bucketS3fsImpl.writeFile('test-blob-callback.json', {
+                    test: 'test'
+                }, function (err, data) {
                     if (err) {
                         return reject(err);
                     }
@@ -648,7 +676,9 @@
             return expect(bucketS3fsImpl.writeFile('test-read-file-encoding-cb.json', contents)
                 .then(function () {
                     return new Promise(function (resolve, reject) {
-                        bucketS3fsImpl.readFile('test-read-file-encoding-cb.json', {encoding: 'utf8'}, function (err, data) {
+                        bucketS3fsImpl.readFile('test-read-file-encoding-cb.json', {
+                            encoding: 'utf8'
+                        }, function (err, data) {
                             if (err) {
                                 return reject(err);
                             }
