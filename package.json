@@ -34,7 +34,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "aws-sdk": "^2.670.0",
+    "aws-sdk": "^2.801.0",
     "bluebird": "^3.7.2",
     "extend": "^3.0.2"
   },
@@ -43,11 +43,11 @@
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "dirty-chai": "^2.0.1",
-    "eslint": "^6.8.0",
+    "eslint": "^7.14.0",
     "istanbul": "^0.4.5",
     "jsinspect": "^0.12.7",
-    "mocha": "^7.1.2",
-    "through2": "^3.0.1"
+    "mocha": "^8.2.1",
+    "through2": "^4.0.2"
   },
   "scripts": {
     "lint": "eslint . && jscs . && jsinspect . && buddy --detect-objects index.js ./lib",
