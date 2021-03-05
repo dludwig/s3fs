@@ -34,19 +34,19 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "aws-sdk": "^2.801.0",
+    "aws-sdk": "^2.857.0",
     "bluebird": "^3.7.2",
     "extend": "^3.0.2"
   },
   "devDependencies": {
     "buddy.js": "^0.9.3",
-    "chai": "^4.2.0",
+    "chai": "^4.3.3",
     "chai-as-promised": "^7.1.1",
     "dirty-chai": "^2.0.1",
-    "eslint": "^7.14.0",
+    "eslint": "^7.21.0",
     "istanbul": "^0.4.5",
     "jsinspect": "^0.12.7",
-    "mocha": "^8.2.1",
+    "mocha": "^8.3.0",
     "through2": "^4.0.2"
   },
   "scripts": {
